@@ -47,6 +47,8 @@ Główna funkcjonalność skupia się na **timeline** i interakcji użytkownika.
   - który klip jest aktualnie aktywny
   - lub jaki zakres timeline’u jest zaznaczony
 
+  !["Wireframe sample"](wireframe.png)
+
 ---
 
 ## Timeline (kluczowa część zadania)

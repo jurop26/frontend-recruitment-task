@@ -38,6 +38,8 @@ Build a **simplified video editor** that runs entirely on the frontend.
 The application **does not operate on real video** — the video preview is a placeholder (e.g. a static image).  
 The main functionality focuses on the **timeline** and user interaction.
 
+!["Wireframe sample"](wireframe.png)
+
 ---
 
 ## Video preview (placeholder)
