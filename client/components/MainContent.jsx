@@ -1,10 +1,29 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import RemoteBar from "./RemoteBar";
 import { Button } from "./ui/button";
 import { Triangle } from "lucide-react";
 
 export default function MainContent() {
+  const [isMouseButtonDown, setMouseButtonDown] = useState(false);
+  const [indicatorX, setIndicatorX] = useState(0);
   const timelineRange = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+
+  const handleMouseDown = () => {
+    setMouseButtonDown(true);
+  };
+  const handleMouseUp = () => {
+    setMouseButtonDown(false);
+  };
+  const handleMouseMove = (e) => {
+    if (!isMouseButtonDown) {
+      return;
+    }
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.x;
+    const clampedX = Math.max(0, Math.min(x, rect.width));
+    setIndicatorX(clampedX);
+  };
+
   return (
     <div className="w-full">
       <div className="py-4 border-b-2">blank area</div>
@@ -14,14 +33,30 @@ export default function MainContent() {
         </div>
       </div>
       <RemoteBar />
-      <div className="relative min-h-50 border-b-2">
-        <div className="absolute inset-0">
+
+      <div
+        className="relative min-h-50 border-b-2 select-none"
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+      >
+        {/* Indicator */}
+        <div
+          className={`absolute inset-y-0`}
+          style={{ left: `${indicatorX}px` }}
+          onMouseDown={handleMouseDown}
+        >
           <div className="w-1 flex flex-col items-center h-full">
-            <Triangle className="rotate-180 fill-black" size="10" />
-            <div className="flex-1 w-0.5 h- bg-black"></div>
+            <Triangle
+              className={`rotate-180 ${isMouseButtonDown ? "fill-red-500" : "fill-black"}`}
+              size="10"
+            />
+            <div
+              className={`flex-1 w-0.5 ${isMouseButtonDown ? "bg-red-500" : "bg-black"}`}
+            ></div>
           </div>
         </div>
 
+        {/* Timeline */}
         <div className="flex justify-between">
           {timelineRange.map((t, i) => (
             <Fragment key={`timeline-segment-${t}`}>
