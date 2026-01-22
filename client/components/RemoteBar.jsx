@@ -20,7 +20,7 @@ export default function RemoteBar() {
           </Button>
         </div>
       </div>
-      <div className="border-b-2">
+      <div>
         Timeline Scale
         <div className="flex">
           <Button variant="outline" rounded="left">
