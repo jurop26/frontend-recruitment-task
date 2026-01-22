@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Header from "./Header";
 import SideBar from "./SideBar";
+import MainContent from "./MainContent";
 
 export function App() {
   useEffect(() => {
@@ -12,7 +13,7 @@ export function App() {
       <Header />
       <div className="flex">
         <SideBar />
-        <div className="container">main</div>
+        <MainContent />
       </div>
     </div>
   );
