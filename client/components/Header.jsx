@@ -3,7 +3,7 @@ import { Undo, ChevronDown, Save, Redo } from "lucide-react";
 
 export default function Header() {
   return (
-    <div className="container  py-2 mx-auto border-b-2 ">
+    <div className="w-full py-2 mx-auto border-b-2 ">
       <div className="flex items-center justify-between">
         <div className="flex">
           <Button variant="outline" rounded="left">

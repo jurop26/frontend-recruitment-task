@@ -9,7 +9,7 @@ export function App() {
   }, []);
 
   return (
-    <div>
+    <div className="w-full mx-auto">
       <Header />
       <div className="flex">
         <SideBar />
