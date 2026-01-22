@@ -33,11 +33,13 @@ const buttonVariants = cva(
         "icon-lg": "size-9",
       },
       directions: { horizontal: "flex", vertical: "flex flex-col" },
+      rounded: { left: "rounded-r-none", right: "rounded-l-none" },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
       directions: "horizontal",
+      rounded: "",
     },
   },
 );
@@ -47,6 +49,7 @@ function Button({
   variant = "default",
   size = "default",
   directions = "horizontal",
+  rounded = "",
   asChild = false,
   ...props
 }) {
@@ -58,7 +61,9 @@ function Button({
       data-variant={variant}
       data-size={size}
       data-directions={directions}
-      className={cn(buttonVariants({ variant, size, className, directions }))}
+      className={cn(
+        buttonVariants({ variant, size, className, directions, rounded }),
+      )}
       {...props}
     />
   );
