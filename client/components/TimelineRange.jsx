@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 
-export default function Timeline(prop) {
-  const { timelineRange } = prop;
+export default function TimelineRange(props) {
+  const { timelineRange } = props;
 
   return (
     <div className="flex justify-between">

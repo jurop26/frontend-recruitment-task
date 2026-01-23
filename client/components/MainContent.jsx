@@ -1,9 +1,10 @@
-import { Fragment, useEffect, useRef, useState, useMemo } from "react";
+import { Plus } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Indicator from "./Indicator";
 import RemoteBar from "./RemoteBar";
-import { Button } from "./ui/button";
-import { Triangle, Plus } from "lucide-react";
+import TimelineRange from "./TimelineRange";
 import { Track } from "./Track";
-import Timeline from "./Timeline";
+import { Button } from "./ui/button";
 
 export default function MainContent(props) {
   const { data } = props;
@@ -26,12 +27,6 @@ export default function MainContent(props) {
     [maxTimelineRange],
   );
 
-  const handleMouseDown = () => {
-    setMouseButtonDown(true);
-  };
-  const handleMouseUp = () => {
-    setMouseButtonDown(false);
-  };
   const handleMouseMove = (e) => {
     if (!isMouseButtonDown) {
       return;
@@ -63,12 +58,11 @@ export default function MainContent(props) {
       <div
         className="relative min-h-50 border-b-2 select-none"
         ref={timelineRef}
-        onMouseUp={handleMouseUp}
+        onMouseUp={() => setMouseButtonDown(false)}
         onMouseMove={handleMouseMove}
       >
-        <Timeline timelineRange={timelineRange} />
+        <TimelineRange timelineRange={timelineRange} />
 
-        {/* Tracks */}
         {data.map(({ id, tracks }) => (
           <div key={id} className="absolute  w-full overflow-hidden">
             {tracks.map((track) => (
@@ -82,22 +76,11 @@ export default function MainContent(props) {
           </div>
         ))}
 
-        {/* Indicator */}
-        <div
-          className={`absolute inset-y-0`}
-          style={{ left: `${indicatorX}px` }}
-          onMouseDown={handleMouseDown}
-        >
-          <div className="w-1 flex flex-col items-center h-full">
-            <Triangle
-              className={`rotate-180 ${isMouseButtonDown ? "fill-red-500" : "fill-black"}`}
-              size="10"
-            />
-            <div
-              className={`flex-1 w-0.5 ${isMouseButtonDown ? "bg-red-500" : "bg-black"}`}
-            ></div>
-          </div>
-        </div>
+        <Indicator
+          indicatorX={indicatorX}
+          isMouseButtonDown={isMouseButtonDown}
+          handleMouseDown={() => setMouseButtonDown(true)}
+        />
       </div>
       <div className="flex w-full justify-center py-2">
         <Button variant="outline">
