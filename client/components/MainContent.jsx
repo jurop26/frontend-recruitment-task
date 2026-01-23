@@ -43,7 +43,7 @@ export default function MainContent(props) {
     }
     const rect = timelineRef.current.getBoundingClientRect();
     setTimelineWidth(rect.width);
-  }, []);
+  }, [maxTimelineRange]);
 
   return (
     <div className="w-full">
@@ -53,7 +53,11 @@ export default function MainContent(props) {
           PREVIEW AREA
         </div>
       </div>
-      <RemoteBar />
+
+      <RemoteBar
+        decreseTimelineRange={() => setMaxTimelineRange((prev) => prev - 5)}
+        increseTimelineRange={() => setMaxTimelineRange((prev) => prev + 5)}
+      />
 
       <div
         className="relative min-h-50 border-b-2 select-none"

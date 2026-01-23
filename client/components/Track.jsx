@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Track = (props) => {
   const { track, widthPerSecond, timelineNode } = props;
@@ -8,6 +8,8 @@ export const Track = (props) => {
   const [startPos, setStartPos] = useState(start * widthPerSecond);
   const [dragPos, setDragPos] = useState(0);
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
+
+  useEffect(() => setStartPos(start * widthPerSecond), [start, widthPerSecond]);
 
   const handleMouseDown = (e) => {
     setMouseButtonDown(true);
@@ -34,6 +36,9 @@ export const Track = (props) => {
 
   const truckLength = duration * widthPerSecond;
 
+  if (!widthPerSecond) {
+    return null;
+  }
   return (
     <div
       onMouseDown={handleMouseDown}

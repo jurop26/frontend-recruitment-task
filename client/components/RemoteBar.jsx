@@ -1,7 +1,9 @@
 import { Button } from "./ui/button";
 import { SplitSquareHorizontal, Repeat, Plus, Minus } from "lucide-react";
 
-export default function RemoteBar() {
+export default function RemoteBar(props) {
+  const { decreseTimelineRange, increseTimelineRange } = props;
+
   return (
     <div className="flex justify-around items-center py-2 border-b-2 [&>div]:flex [&>div]:items-center [&>div]:gap-4">
       <Button variant="outline">
@@ -23,10 +25,18 @@ export default function RemoteBar() {
       <div>
         Timeline Scale
         <div className="flex">
-          <Button variant="outline" rounded="left">
+          <Button
+            onClick={() => decreseTimelineRange()}
+            variant="outline"
+            rounded="left"
+          >
             <Minus />
           </Button>
-          <Button variant="outline" rounded="right">
+          <Button
+            onClick={() => increseTimelineRange()}
+            variant="outline"
+            rounded="right"
+          >
             <Plus />
           </Button>
         </div>
