@@ -3,6 +3,7 @@ import RemoteBar from "./RemoteBar";
 import { Button } from "./ui/button";
 import { Triangle, Plus } from "lucide-react";
 import { Track } from "./Track";
+import Timeline from "./Timeline";
 
 export default function MainContent(props) {
   const { data } = props;
@@ -65,18 +66,7 @@ export default function MainContent(props) {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
-        {/* Timeline */}
-        <div className="flex justify-between">
-          {timelineRange.map((t, i) => (
-            <Fragment key={`timeline-segment-${t}`}>
-              <div>{t}s</div>
-              {i < timelineRange.length - 1 &&
-                Array.from({ length: 4 }).map((_, i) => (
-                  <div key={`timeline-part-${i}`}>|</div>
-                ))}
-            </Fragment>
-          ))}
-        </div>
+        <Timeline timelineRange={timelineRange} />
 
         {/* Tracks */}
         {data.map(({ id, tracks }) => (
