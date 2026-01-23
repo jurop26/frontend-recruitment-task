@@ -9,9 +9,21 @@ const data = [
     name: "clip",
     duration: 30,
     tracks: [
-      { id: "1", name: "track1", duration: 45, start: 0, end: 30 },
-      { id: "2", name: "track2", duration: 30, start: 5, end: 30 },
-      { id: "3", name: "track3", duration: 35, start: 0, end: 30 },
+      { id: "1", name: "track1", duration: 45, start: 0 },
+      { id: "2", name: "track2", duration: 30, start: 5 },
+      { id: "3", name: "track3", duration: 35, start: 2 },
+    ],
+  },
+  {
+    id: "2",
+    name: "clip",
+    duration: 60,
+    tracks: [
+      { id: "1", name: "track1", duration: 58, start: 0 },
+      { id: "2", name: "track2", duration: 30, start: 5 },
+      { id: "3", name: "track3", duration: 35, start: 25 },
+      { id: "4", name: "track4", duration: 35, start: 2 },
+      { id: "5", name: "track5", duration: 35, start: 25 },
     ],
   },
 ];
