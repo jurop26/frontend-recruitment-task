@@ -11,9 +11,12 @@ export default function MainContent(props) {
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
   const [maxTimelineRange, setMaxTimelineRange] = useState(60);
   const [indicatorX, setIndicatorX] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
   const [timelineWidth, setTimelineWidth] = useState(0);
   const timelineRef = useRef(null);
   const timelineScaleParts = 13;
+  const widthPerSecond = timelineWidth / maxTimelineRange;
 
   const timelineRange = useMemo(
     () =>
@@ -45,6 +48,22 @@ export default function MainContent(props) {
     setTimelineWidth(rect.width);
   }, [maxTimelineRange]);
 
+  useEffect(() => {
+    if (!isPlaying) {
+      return;
+    }
+    const interval = setInterval(() => {
+      setIndicatorX((prev) => {
+        const next = prev + widthPerSecond / 100;
+        return next > timelineWidth && isRepeat
+          ? 0
+          : Math.min(next, timelineWidth);
+      });
+    }, 10);
+
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
   return (
     <div className="w-full">
       <div className="py-4 border-b-2">blank area</div>
@@ -55,6 +74,10 @@ export default function MainContent(props) {
       </div>
 
       <RemoteBar
+        isPlaying={isPlaying}
+        isRepeat={isRepeat}
+        handleIsPlaying={() => setIsPlaying((prev) => !prev)}
+        handleIsRepeat={() => setIsRepeat((prev) => !prev)}
         decreseTimelineRange={() => setMaxTimelineRange((prev) => prev - 5)}
         increseTimelineRange={() => setMaxTimelineRange((prev) => prev + 5)}
       />
@@ -74,7 +97,7 @@ export default function MainContent(props) {
                 key={track.id}
                 timelineNode={timelineRef.current}
                 track={track}
-                widthPerSecond={timelineWidth / maxTimelineRange}
+                widthPerSecond={widthPerSecond}
               />
             ))}
           </div>

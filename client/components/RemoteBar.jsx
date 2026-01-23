@@ -2,7 +2,14 @@ import { Button } from "./ui/button";
 import { SplitSquareHorizontal, Repeat, Plus, Minus } from "lucide-react";
 
 export default function RemoteBar(props) {
-  const { decreseTimelineRange, increseTimelineRange } = props;
+  const {
+    isPlaying,
+    isRepeat,
+    decreseTimelineRange,
+    increseTimelineRange,
+    handleIsPlaying,
+    handleIsRepeat,
+  } = props;
 
   return (
     <div className="flex justify-around items-center py-2 border-b-2 [&>div]:flex [&>div]:items-center [&>div]:gap-4">
@@ -13,11 +20,20 @@ export default function RemoteBar(props) {
       <div>
         <div>0.00 / 0.20</div>
         <Button
+          onClick={() => handleIsPlaying()}
           variant="outline"
-          className="rounded-full p-5 border-black"
+          className={`rounded-full p-5 border-black ${isPlaying ? "bg-green-400 hover:bg-green-500" : "bg-red-400 hover:bg-red-500"}`}
         ></Button>
         <div>
-          <Button variant="ghost">
+          <Button
+            onClick={() => handleIsRepeat()}
+            variant="outline"
+            className={`${
+              isRepeat
+                ? "bg-gray-400 hover:bg-gray-500"
+                : "bg-gray-200 hover:bg-gray-300"
+            }`}
+          >
             <Repeat />
           </Button>
         </div>
