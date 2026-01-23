@@ -1,9 +1,11 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import RemoteBar from "./RemoteBar";
 import { Button } from "./ui/button";
-import { Triangle } from "lucide-react";
+import { Triangle, Plus } from "lucide-react";
+import Track from "./Track";
 
-export default function MainContent() {
+export default function MainContent(props) {
+  const { data } = props;
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
   const [indicatorX, setIndicatorX] = useState(0);
   const timelineRange = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
@@ -68,9 +70,21 @@ export default function MainContent() {
             </Fragment>
           ))}
         </div>
+
+        {/* Tracks */}
+        {data.map(({ id, tracks }) => (
+          <div key={id}>
+            {tracks.map((track) => (
+              <Track key={track.id} track={track} />
+            ))}
+          </div>
+        ))}
       </div>
-      <div className="mx-auto py-2">
-        <Button>Add</Button>
+      <div className="flex w-full justify-center py-2">
+        <Button variant="outline">
+          <Plus />
+          Add
+        </Button>
       </div>
     </div>
   );
