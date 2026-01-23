@@ -1,8 +1,8 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState, useMemo } from "react";
 import RemoteBar from "./RemoteBar";
 import { Button } from "./ui/button";
 import { Triangle, Plus } from "lucide-react";
-import Track from "./Track";
+import { Track } from "./Track";
 
 export default function MainContent(props) {
   const { data } = props;
@@ -13,13 +13,17 @@ export default function MainContent(props) {
   const timelineRef = useRef(null);
   const timelineScaleParts = 13;
 
-  const timelineRange = Array.from({
-    length: timelineScaleParts,
-  }).reduce((acc, _, i) => {
-    acc.push(i * Math.ceil(maxTimelineRange / (timelineScaleParts - 1)));
+  const timelineRange = useMemo(
+    () =>
+      Array.from({
+        length: timelineScaleParts,
+      }).reduce((acc, _, i) => {
+        acc.push(i * Math.ceil(maxTimelineRange / (timelineScaleParts - 1)));
 
-    return acc;
-  }, []);
+        return acc;
+      }, []),
+    [maxTimelineRange],
+  );
 
   const handleMouseDown = () => {
     setMouseButtonDown(true);
@@ -61,6 +65,33 @@ export default function MainContent(props) {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
+        {/* Timeline */}
+        <div className="flex justify-between">
+          {timelineRange.map((t, i) => (
+            <Fragment key={`timeline-segment-${t}`}>
+              <div>{t}s</div>
+              {i < timelineRange.length - 1 &&
+                Array.from({ length: 4 }).map((_, i) => (
+                  <div key={`timeline-part-${i}`}>|</div>
+                ))}
+            </Fragment>
+          ))}
+        </div>
+
+        {/* Tracks */}
+        {data.map(({ id, tracks }) => (
+          <div key={id} className="absolute  w-full overflow-hidden">
+            {tracks.map((track) => (
+              <Track
+                key={track.id}
+                timelineNode={timelineRef.current}
+                track={track}
+                widthPerSecond={timelineWidth / maxTimelineRange}
+              />
+            ))}
+          </div>
+        ))}
+
         {/* Indicator */}
         <div
           className={`absolute inset-y-0`}
@@ -77,32 +108,6 @@ export default function MainContent(props) {
             ></div>
           </div>
         </div>
-
-        {/* Timeline */}
-        <div className="flex justify-between overflow-auto">
-          {timelineRange.map((t, i) => (
-            <Fragment key={`timeline-segment-${t}`}>
-              <div>{t}s</div>
-              {i < timelineRange.length - 1 &&
-                Array.from({ length: 4 }).map((_, i) => (
-                  <div key={`timeline-part-${i}`}>|</div>
-                ))}
-            </Fragment>
-          ))}
-        </div>
-
-        {/* Tracks */}
-        {data.map(({ id, tracks }) => (
-          <div key={id}>
-            {tracks.map((track) => (
-              <Track
-                key={track.id}
-                track={track}
-                widthPerSecond={timelineWidth / maxTimelineRange}
-              />
-            ))}
-          </div>
-        ))}
       </div>
       <div className="flex w-full justify-center py-2">
         <Button variant="outline">

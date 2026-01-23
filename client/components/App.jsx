@@ -10,7 +10,7 @@ const data = [
     duration: 30,
     tracks: [
       { id: "1", name: "track1", duration: 45, start: 0, end: 30 },
-      { id: "2", name: "track2", duration: 30, start: 0, end: 30 },
+      { id: "2", name: "track2", duration: 30, start: 5, end: 30 },
       { id: "3", name: "track3", duration: 35, start: 0, end: 30 },
     ],
   },
