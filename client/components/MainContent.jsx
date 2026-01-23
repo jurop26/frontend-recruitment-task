@@ -9,13 +9,14 @@ import { Button } from "./ui/button";
 export default function MainContent(props) {
   const { data } = props;
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
-  const [maxTimelineRange, setMaxTimelineRange] = useState(60);
+  const [maxTimelineRange, setMaxTimelineRange] = useState(20);
   const [indicatorX, setIndicatorX] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
+  const [timer, setTimer] = useState(0);
   const [timelineWidth, setTimelineWidth] = useState(0);
   const timelineRef = useRef(null);
-  const timelineScaleParts = 13;
+  const timelineScaleParts = Math.min(maxTimelineRange / 5 + 1, 13); // plus 1 as default 0;
   const widthPerSecond = timelineWidth / maxTimelineRange;
 
   const timelineRange = useMemo(
@@ -64,6 +65,21 @@ export default function MainContent(props) {
     return () => clearInterval(interval);
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (!isPlaying) {
+      return;
+    }
+    if (timer === maxTimelineRange && !isRepeat) {
+      setIsPlaying(false);
+      return;
+    }
+    const interval = setInterval(
+      () => setTimer((prev) => (timer === maxTimelineRange ? 0 : prev + 1)),
+      1000,
+    );
+    return () => clearInterval(interval);
+  }, [timer, isPlaying]);
+
   return (
     <div className="w-full">
       <div className="py-4 border-b-2">blank area</div>
@@ -76,6 +92,7 @@ export default function MainContent(props) {
       <RemoteBar
         isPlaying={isPlaying}
         isRepeat={isRepeat}
+        timer={timer}
         handleIsPlaying={() => setIsPlaying((prev) => !prev)}
         handleIsRepeat={() => setIsRepeat((prev) => !prev)}
         decreseTimelineRange={() => setMaxTimelineRange((prev) => prev - 5)}

@@ -1,10 +1,12 @@
 import { Button } from "./ui/button";
 import { SplitSquareHorizontal, Repeat, Plus, Minus } from "lucide-react";
+import moment from "moment";
 
 export default function RemoteBar(props) {
   const {
     isPlaying,
     isRepeat,
+    timer,
     decreseTimelineRange,
     increseTimelineRange,
     handleIsPlaying,
@@ -18,7 +20,11 @@ export default function RemoteBar(props) {
         Split Clip
       </Button>
       <div>
-        <div>0.00 / 0.20</div>
+        <div>
+          {moment(moment.duration(timer, "seconds").asMilliseconds()).format(
+            "mm:ss",
+          )}
+        </div>
         <Button
           onClick={() => handleIsPlaying()}
           variant="outline"
