@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import RemoteBar from "./RemoteBar";
 import { Button } from "./ui/button";
 import { Triangle, Plus } from "lucide-react";
@@ -7,8 +7,19 @@ import Track from "./Track";
 export default function MainContent(props) {
   const { data } = props;
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
+  const [maxTimelineRange, setMaxTimelineRange] = useState(60);
   const [indicatorX, setIndicatorX] = useState(0);
-  const timelineRange = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60];
+  const [timelineWidth, setTimelineWidth] = useState(0);
+  const timelineRef = useRef(null);
+  const timelineScaleParts = 13;
+
+  const timelineRange = Array.from({
+    length: timelineScaleParts,
+  }).reduce((acc, _, i) => {
+    acc.push(i * Math.ceil(maxTimelineRange / (timelineScaleParts - 1)));
+
+    return acc;
+  }, []);
 
   const handleMouseDown = () => {
     setMouseButtonDown(true);
@@ -26,6 +37,14 @@ export default function MainContent(props) {
     setIndicatorX(clampedX);
   };
 
+  useEffect(() => {
+    if (!timelineRef.current) {
+      return;
+    }
+    const rect = timelineRef.current.getBoundingClientRect();
+    setTimelineWidth(rect.width);
+  }, []);
+
   return (
     <div className="w-full">
       <div className="py-4 border-b-2">blank area</div>
@@ -38,6 +57,7 @@ export default function MainContent(props) {
 
       <div
         className="relative min-h-50 border-b-2 select-none"
+        ref={timelineRef}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
@@ -59,7 +79,7 @@ export default function MainContent(props) {
         </div>
 
         {/* Timeline */}
-        <div className="flex justify-between">
+        <div className="flex justify-between overflow-auto">
           {timelineRange.map((t, i) => (
             <Fragment key={`timeline-segment-${t}`}>
               <div>{t}s</div>
@@ -75,7 +95,11 @@ export default function MainContent(props) {
         {data.map(({ id, tracks }) => (
           <div key={id}>
             {tracks.map((track) => (
-              <Track key={track.id} track={track} />
+              <Track
+                key={track.id}
+                track={track}
+                widthPerSecond={timelineWidth / maxTimelineRange}
+              />
             ))}
           </div>
         ))}
