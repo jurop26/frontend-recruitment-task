@@ -5,7 +5,8 @@ import TimelineRange from "./TimelineRange";
 import { Track } from "./Track";
 
 export default function ClipTimeline(props) {
-  const { tracks, duration } = props.clip;
+  const { isSelected, clip, handleSelectClip } = props;
+  const { tracks, duration } = clip;
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
   const [maxTimelineRange, setMaxTimelineRange] = useState(duration);
   const [indicatorX, setIndicatorX] = useState(0);
@@ -67,7 +68,7 @@ export default function ClipTimeline(props) {
     if (!isPlaying) {
       return;
     }
-    if (timer === maxTimelineRange && !isRepeat) {
+    if (timer === duration && !isRepeat) {
       setIsPlaying(false);
       return;
     }
@@ -79,7 +80,10 @@ export default function ClipTimeline(props) {
   }, [timer, isPlaying]);
 
   return (
-    <>
+    <div
+      onClick={() => handleSelectClip()}
+      className={`${isSelected ? "bg-orange-300" : ""}`}
+    >
       <RemoteBar
         isPlaying={isPlaying}
         isRepeat={isRepeat}
@@ -97,7 +101,6 @@ export default function ClipTimeline(props) {
       >
         <TimelineRange timelineRange={timelineRange} />
 
-        {/* {tracks.map(({ id, tracks }) => ( */}
         <div className="absolute  w-full overflow-hidden">
           {tracks.map((track) => (
             <Track
@@ -108,7 +111,6 @@ export default function ClipTimeline(props) {
             />
           ))}
         </div>
-        {/* ))} */}
 
         <Indicator
           indicatorX={indicatorX}
@@ -116,6 +118,6 @@ export default function ClipTimeline(props) {
           handleMouseDown={() => setMouseButtonDown(true)}
         />
       </div>
-    </>
+    </div>
   );
 }

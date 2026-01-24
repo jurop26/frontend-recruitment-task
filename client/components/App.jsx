@@ -6,7 +6,7 @@ import MainContent from "./MainContent";
 const data = [
   {
     id: "1",
-    name: "clip",
+    name: "clip 1",
     duration: 30,
     tracks: [
       { id: "1", name: "track1", duration: 45, start: 0 },
@@ -16,7 +16,7 @@ const data = [
   },
   {
     id: "2",
-    name: "clip",
+    name: "clip 2",
     duration: 60,
     tracks: [
       { id: "1", name: "track1", duration: 58, start: 0 },
