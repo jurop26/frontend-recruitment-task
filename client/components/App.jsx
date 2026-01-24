@@ -37,7 +37,7 @@ export function App() {
     <div className="w-full mx-auto">
       <Header />
       <div className="flex">
-        <SideBar />
+        <SideBar data={data} />
         <MainContent data={data} />
       </div>
     </div>
