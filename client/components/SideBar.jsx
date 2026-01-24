@@ -13,11 +13,15 @@ export default function SideBar() {
         }
         title="Open / Create new project "
       ></DialogWrapper>
-
-      <Button variant="ghost" directions="vertical">
-        <Shapes />
-        Notes
-      </Button>
+      <DialogWrapper
+        trigger={
+          <Button variant="ghost" directions="vertical">
+            <Shapes />
+            Notes
+          </Button>
+        }
+        title="Add note to project"
+      ></DialogWrapper>
     </div>
   );
 }

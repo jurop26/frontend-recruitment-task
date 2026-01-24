@@ -13,7 +13,7 @@ export default function MainContent(props) {
 
   return (
     <div className="w-full">
-      <div className="py-4 border-b-2">blank area</div>
+      <div className="py-6 border-b-2"></div>
       <div className="flex justify-center py-4 border-b-2">
         <div className="flex justify-center items-center text-3xl w-2xl h-128 border-2">
           {_.find(data, { id: selectedClip })?.name ?? "PREVIEW AREA"}
