@@ -4,12 +4,11 @@ import { Button } from "./ui/button";
 import { useState } from "react";
 import _ from "lodash";
 
-export default function MainContent(props) {
-  const { data } = props;
-  const [displaydClips, setDisplayClips] = useState(["1", "2"]);
+export default function MainContent({ data }) {
+  const [displayedClips, setDisplayedClips] = useState(["1", "2"]);
   const [selectedClip, setSelectedClip] = useState(null);
 
-  const clipsToDisplay = data.filter((c) => displaydClips.includes(c.id));
+  const clipsToDisplay = data.filter((c) => displayedClips.includes(c.id));
 
   return (
     <div className="w-full">

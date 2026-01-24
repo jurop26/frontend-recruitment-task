@@ -1,5 +1,18 @@
 {
-  "projects": [],
+  "projects": [
+    {
+      "id": "1990cb8f-e00b-45ff-bb2c-65ef81cf50f8",
+      "data": {
+        "name": "project 1"
+      }
+    },
+    {
+      "id": "d098a3da-b015-4534-90ad-7aa85693fd25",
+      "data": {
+        "name": "project 2"
+      }
+    }
+  ],
   "clips": [],
   "notes": []
 }

@@ -2,6 +2,7 @@ import { PanelsLeftBottom, Shapes } from "lucide-react";
 import { Button } from "./ui/button";
 import DialogWrapper from "./DialogWrapper";
 import ProjectDialogContent from "./ProjectDialogContent";
+import NotesDialogContent from "./NotesDialogContent";
 
 export default function SideBar({ data }) {
   return (
@@ -26,7 +27,9 @@ export default function SideBar({ data }) {
           </Button>
         }
         title="Add note to project"
-      ></DialogWrapper>
+      >
+        <NotesDialogContent id={data.id} />
+      </DialogWrapper>
     </div>
   );
 }
