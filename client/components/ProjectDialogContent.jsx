@@ -1,14 +1,17 @@
 import _ from "lodash";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { ProjectContext } from "./App";
 
 export default function ProjectDialogContent() {
   const [projectName, setProjectName] = useState("");
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const isExisting = _.find(projects, { name: projectName });
+  const existing = _.find(projects, { data: { name: projectName } });
+
+  const { setProject } = useContext(ProjectContext);
 
   const handleProjectCreate = async (projectName) => {
     try {
@@ -17,6 +20,17 @@ export default function ProjectDialogContent() {
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ name: projectName }),
       });
+    } catch (err) {
+      console.err(err.message);
+    }
+  };
+
+  const handleProjectOpen = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/projects/${id}`);
+      const { data } = await res.json();
+
+      setProject(data);
     } catch (err) {
       console.err(err.message);
     }
@@ -67,10 +81,12 @@ export default function ProjectDialogContent() {
         disabled={!projectName}
         variant={projectName ? "default" : "destructive"}
         onClick={async () => {
-          await handleProjectCreate(projectName);
+          existing
+            ? await handleProjectOpen(existing.id)
+            : await handleProjectCreate(projectName);
         }}
       >
-        {projectName && isExisting ? "Open" : "Create"}
+        {projectName && existing ? "Open" : "Create"}
       </Button>
     </>
   );

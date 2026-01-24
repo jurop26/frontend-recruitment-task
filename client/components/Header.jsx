@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { Button } from "./ui/button";
 import { Undo, ChevronDown, Save, Redo } from "lucide-react";
+import { ProjectContext } from "./App";
 
 export default function Header() {
+  const { project } = useContext(ProjectContext);
   return (
     <div className="w-full py-2 mx-auto border-b-2 ">
       <div className="flex items-center justify-between">
@@ -14,7 +17,7 @@ export default function Header() {
             <Redo />
           </Button>
         </div>
-        <div>Design</div>
+        <div>{project?.name}</div>
         <div className="flex">
           <Button variant="outline" rounded="left">
             <Save /> Save
