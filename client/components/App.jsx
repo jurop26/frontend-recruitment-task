@@ -39,8 +39,8 @@ export function App() {
       <div className="w-full mx-auto">
         <Header />
         <div className="flex">
-          <SideBar data={data} />
-          <MainContent data={data} />
+          <SideBar />
+          <MainContent />
         </div>
       </div>
     </ProjectContext.Provider>

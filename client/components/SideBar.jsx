@@ -3,8 +3,11 @@ import { Button } from "./ui/button";
 import DialogWrapper from "./DialogWrapper";
 import ProjectDialogContent from "./ProjectDialogContent";
 import NotesDialogContent from "./NotesDialogContent";
+import { useContext } from "react";
+import { ProjectContext } from "./App";
 
-export default function SideBar({ data }) {
+export default function SideBar() {
+  const { project } = useContext(ProjectContext);
   return (
     <div className="flex flex-col gap-8 border-r-2 py-8 h-screen ">
       <DialogWrapper
@@ -17,7 +20,7 @@ export default function SideBar({ data }) {
         title="Open / Create project"
         description="Choose existing or enter new project name"
       >
-        <ProjectDialogContent data={data} />
+        <ProjectDialogContent />
       </DialogWrapper>
       <DialogWrapper
         trigger={
@@ -28,7 +31,7 @@ export default function SideBar({ data }) {
         }
         title="Add note to project"
       >
-        <NotesDialogContent id={data.id} />
+        <NotesDialogContent id={project?.data?.id} />
       </DialogWrapper>
     </div>
   );

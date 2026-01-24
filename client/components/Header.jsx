@@ -20,7 +20,8 @@ export default function Header() {
         <div>{project?.name}</div>
         <div className="flex">
           <Button variant="outline" rounded="left">
-            <Save /> Save
+            <Save />
+            Save
           </Button>
           <Button variant="outline" rounded="right">
             <ChevronDown />

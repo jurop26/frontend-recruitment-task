@@ -9,17 +9,22 @@ export default function ProjectDialogContent() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const existing = _.find(projects, { data: { name: projectName } });
+  const existing = _.find(projects?.data, { name: projectName });
 
   const { setProject } = useContext(ProjectContext);
 
   const handleProjectCreate = async (projectName) => {
     try {
-      await fetch("http://localhost:3000/api/projects", {
+      const res = await fetch("http://localhost:3000/api/projects", {
         method: "POST",
         headers: { "Content-type": "application/json" },
         body: JSON.stringify({ name: projectName }),
       });
+      if (!res.ok) {
+        throw new Error("Failed to create project.");
+      }
+      const data = await res.json();
+      await handleProjectOpen(data.id);
     } catch (err) {
       console.err(err.message);
     }
@@ -28,11 +33,13 @@ export default function ProjectDialogContent() {
   const handleProjectOpen = async (id) => {
     try {
       const res = await fetch(`http://localhost:3000/api/projects/${id}`);
+      if (!res.ok) {
+        throw new Error("Failed to open project.");
+      }
       const { data } = await res.json();
-
       setProject(data);
     } catch (err) {
-      console.err(err.message);
+      console.error(err.message);
     }
   };
 
