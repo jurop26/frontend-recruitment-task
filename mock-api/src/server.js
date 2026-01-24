@@ -1,9 +1,10 @@
-import express from 'express';
-import cors from 'cors';
-import { graphqlHTTP } from 'express-graphql';
-import { schema } from './graphql/schema.js';
-import { resolvers } from './graphql/resolvers.js';
-import projectsRouter from './rest/projects.js';
+import express from "express";
+import cors from "cors";
+import { graphqlHTTP } from "express-graphql";
+import { schema } from "./graphql/schema.js";
+import { resolvers } from "./graphql/resolvers.js";
+import projectsRouter from "./rest/projects.js";
+import clipsRouter from "./rest/clips.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,51 +21,55 @@ app.use((req, res, next) => {
 });
 
 // REST API Routes
-app.use('/api/projects', projectsRouter);
+app.use("/api/projects", projectsRouter);
+app.use("/api/clips", clipsRouter);
 
 // GraphQL API Route
-app.use('/graphql', graphqlHTTP({
-  schema: schema,
-  rootValue: resolvers,
-  graphiql: true, // Enable GraphiQL interface for development
-  customFormatErrorFn: (error) => {
-    console.error('GraphQL Error:', error);
-    return {
-      message: error.message,
-      locations: error.locations,
-      path: error.path
-    };
-  }
-}));
+app.use(
+  "/graphql",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: resolvers,
+    graphiql: true, // Enable GraphiQL interface for development
+    customFormatErrorFn: (error) => {
+      console.error("GraphQL Error:", error);
+      return {
+        message: error.message,
+        locations: error.locations,
+        path: error.path,
+      };
+    },
+  }),
+);
 
 // Health check endpoint
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+app.get("/health", (req, res) => {
+  res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
 // Root endpoint
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.json({
-    message: 'Mock API Server',
+    message: "Mock API Server",
     endpoints: {
       rest: {
-        projects: '/api/projects'
+        projects: "/api/projects",
       },
-      graphql: '/graphql',
-      health: '/health'
-    }
+      graphql: "/graphql",
+      health: "/health",
+    },
   });
 });
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Endpoint not found' });
+  res.status(404).json({ error: "Endpoint not found" });
 });
 
 // Error handler
 app.use((err, req, res, next) => {
-  console.error('Server error:', err);
-  res.status(500).json({ error: 'Internal server error' });
+  console.error("Server error:", err);
+  res.status(500).json({ error: "Internal server error" });
 });
 
 // Start server
