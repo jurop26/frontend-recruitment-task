@@ -9,7 +9,7 @@ export default function ProjectDialogContent() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const existing = _.find(projects?.data, { name: projectName });
+  const existing = _.find(projects, { data: { name: projectName } });
 
   const { setProject } = useContext(ProjectContext);
 

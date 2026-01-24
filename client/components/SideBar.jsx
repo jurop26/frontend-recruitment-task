@@ -24,7 +24,7 @@ export default function SideBar() {
       </DialogWrapper>
       <DialogWrapper
         trigger={
-          <Button variant="ghost" directions="vertical">
+          <Button disabled={!project} variant="ghost" directions="vertical">
             <Shapes />
             Notes
           </Button>

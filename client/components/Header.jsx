@@ -9,21 +9,21 @@ export default function Header() {
     <div className="w-full py-2 mx-auto border-b-2 ">
       <div className="flex items-center justify-between">
         <div className="flex">
-          <Button variant="outline" rounded="left">
+          <Button disabled={!project} variant="outline" rounded="left">
             <Undo />
             Undo
           </Button>
-          <Button variant="outline" rounded="right">
+          <Button disabled={!project} variant="outline" rounded="right">
             <Redo />
           </Button>
         </div>
         <div>{project?.name}</div>
         <div className="flex">
-          <Button variant="outline" rounded="left">
+          <Button disabled={!project} variant="outline" rounded="left">
             <Save />
             Save
           </Button>
-          <Button variant="outline" rounded="right">
+          <Button disabled={!project} variant="outline" rounded="right">
             <ChevronDown />
           </Button>
         </div>
