@@ -1,13 +1,14 @@
 import { PanelsLeftBottom, Shapes } from "lucide-react";
-import { Button } from "./ui/button";
-import DialogWrapper from "./DialogWrapper";
-import ProjectDialogContent from "./ProjectDialogContent";
-import NotesDialogContent from "./NotesDialogContent";
 import { useContext } from "react";
 import { ProjectContext } from "./App";
+import DialogWrapper from "./DialogWrapper";
+import NotesDialogContent from "./NotesDialogContent";
+import ProjectDialogContent from "./ProjectDialogContent";
+import { Button } from "./ui/button";
 
 export default function SideBar() {
   const { project } = useContext(ProjectContext);
+
   return (
     <div className="flex flex-col gap-8 border-r-2 py-8 h-screen ">
       <DialogWrapper
@@ -20,8 +21,9 @@ export default function SideBar() {
         title="Open / Create project"
         description="Choose existing or enter new project name"
       >
-        <ProjectDialogContent />
+        {(onClose) => <ProjectDialogContent closeDialog={onClose} />}
       </DialogWrapper>
+
       <DialogWrapper
         trigger={
           <Button disabled={!project} variant="ghost" directions="vertical">
@@ -31,7 +33,9 @@ export default function SideBar() {
         }
         title="Add note to project"
       >
-        <NotesDialogContent id={project?.data?.id} />
+        {(onClose) => (
+          <NotesDialogContent id={project?.data?.id} closeDialog={onClose} />
+        )}
       </DialogWrapper>
     </div>
   );

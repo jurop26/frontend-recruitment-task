@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 
-export default function NotesDialogContent({ id }) {
+export default function NotesDialogContent({ id, dialogClose }) {
   const [note, setNote] = useState("");
 
   return (

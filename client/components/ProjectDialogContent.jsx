@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ProjectContext } from "./App";
 
-export default function ProjectDialogContent() {
+export default function ProjectDialogContent({ closeDialog }) {
   const [projectName, setProjectName] = useState("");
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -25,6 +25,7 @@ export default function ProjectDialogContent() {
       }
       const data = await res.json();
       await handleProjectOpen(data.id);
+      closeDialog();
     } catch (err) {
       console.err(err.message);
     }
@@ -38,6 +39,7 @@ export default function ProjectDialogContent() {
       }
       const { data } = await res.json();
       setProject(data);
+      closeDialog();
     } catch (err) {
       console.error(err.message);
     }

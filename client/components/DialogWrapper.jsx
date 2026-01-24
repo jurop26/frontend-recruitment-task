@@ -15,6 +15,8 @@ export default function DialogWrapper({
   children,
 }) {
   const [open, setOpen] = useState(false);
+  const onClose = () => setOpen(false);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
@@ -23,7 +25,7 @@ export default function DialogWrapper({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        {children}
+        {typeof children === "function" ? children(onClose) : children}
       </DialogContent>
     </Dialog>
   );
