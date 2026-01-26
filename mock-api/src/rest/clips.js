@@ -17,24 +17,24 @@ router.get("/", (req, res) => {
 
 /**
  * GET /api/clips/:id
- * Get a single project by ID
+ * Get a single clip by ID
  */
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   console.log(`GET /api/clips/${id}`);
 
-  const project = getById(COLLECTION, id);
+  const clip = getById(COLLECTION, id);
 
-  if (!project) {
+  if (!clip) {
     return res.status(404).json({ error: "Clip not found" });
   }
 
-  res.json(project);
+  res.json(clip);
 });
 
 /**
  * POST /api/clips
- * Create a new project
+ * Create a new clip
  */
 router.post("/", (req, res) => {
   console.log("POST /api/clips", req.body);
