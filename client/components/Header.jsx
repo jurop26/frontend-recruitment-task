@@ -6,8 +6,13 @@ import useHandleDb from "../hooks/useHandleDb";
 
 export default function Header() {
   const { project } = useContext(ProjectContext);
-  const { update } = useHandleDb("project");
-  const handleSave = async (id) => await update(id, project);
+  const { update } = useHandleDb("projects");
+  const handleSave = async (id) => {
+    if (project && project.data) {
+      await update(id, project?.data);
+      alert("Project saved");
+    }
+  };
 
   return (
     <div className="w-full py-2 mx-auto border-b-2 ">
