@@ -4,14 +4,13 @@ import { Button } from "./ui/button";
 import { useContext, useState } from "react";
 import _ from "lodash";
 import { ProjectContext } from "./App";
+import DialogWrapper from "./DialogWrapper";
+import OpenCreateDialogContent from "./OpenCreateDialogContent";
 
 export default function MainContent() {
   const { project } = useContext(ProjectContext);
-  const [displayedClips, setDisplayedClips] = useState(["1", "2"]);
+  const [displayedClips, setDisplayedClips] = useState([]);
   const [selectedClip, setSelectedClip] = useState(null);
-
-  const clipsToDisplay =
-    project?.data?.filter((c) => displayedClips.data.includes(c.id)) ?? [];
 
   return (
     <div className="w-full">
@@ -21,9 +20,9 @@ export default function MainContent() {
           {_.find(project?.data, { id: selectedClip })?.name ?? "PREVIEW AREA"}
         </div>
       </div>
-      {clipsToDisplay.map((clip) => (
+      {displayedClips.map((clip) => (
         <ClipTimeline
-          key={clip.id}
+          key={`clips-${clip.id}`}
           isSelected={clip.id === selectedClip}
           clip={clip}
           handleSelectClip={() => setSelectedClip(clip.id)}
@@ -31,10 +30,24 @@ export default function MainContent() {
       ))}
 
       <div className="flex w-full justify-center py-2">
-        <Button disabled={!project} variant="outline">
-          <Plus />
-          Add
-        </Button>
+        <DialogWrapper
+          trigger={
+            <Button disabled={!project} variant="outline">
+              <Plus />
+              Add
+            </Button>
+          }
+          title="Open / Create clip"
+          description="Choose existing or enter new clip name"
+        >
+          {(onClose) => (
+            <OpenCreateDialogContent
+              collection="clips"
+              closeDialog={onClose}
+              setState={setDisplayedClips}
+            />
+          )}
+        </DialogWrapper>
       </div>
     </div>
   );

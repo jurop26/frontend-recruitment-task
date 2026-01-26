@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { ProjectContext } from "./App";
 import DialogWrapper from "./DialogWrapper";
 import NotesDialogContent from "./NotesDialogContent";
-import ProjectDialogContent from "./ProjectDialogContent";
+import OpenCreateDialogContent from "./OpenCreateDialogContent";
 import { Button } from "./ui/button";
 
 export default function SideBar() {
@@ -21,7 +21,12 @@ export default function SideBar() {
         title="Open / Create project"
         description="Choose existing or enter new project name"
       >
-        {(onClose) => <ProjectDialogContent closeDialog={onClose} />}
+        {(onClose) => (
+          <OpenCreateDialogContent
+            collection="projects"
+            closeDialog={onClose}
+          />
+        )}
       </DialogWrapper>
 
       <DialogWrapper
