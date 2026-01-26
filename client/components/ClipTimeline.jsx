@@ -79,6 +79,10 @@ export default function ClipTimeline(props) {
     return () => clearInterval(interval);
   }, [timer, isPlaying]);
 
+  if (!tracks) {
+    return null;
+  }
+
   return (
     <div
       onClick={() => handleSelectClip()}

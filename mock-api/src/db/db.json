@@ -1,24 +1,18 @@
 {
   "projects": [
     {
-      "id": "1990cb8f-e00b-45ff-bb2c-65ef81cf50f8",
+      "id": "fd8a0471-cc2e-443b-97ab-cc8a71776ea3",
       "data": {
-        "name": "project 1"
-      }
-    },
-    {
-      "id": "d098a3da-b015-4534-90ad-7aa85693fd25",
-      "data": {
-        "name": "project 2"
+        "name": "project 1",
+        "clips": []
       }
     }
   ],
   "clips": [
     {
-      "id": "045573b0-3e24-4f24-9437-3e9f29cd86c6",
+      "id": "3dd63d69-216d-4642-8218-031f34039db1",
       "data": {
         "name": "new",
-        "projectId": "1990cb8f-e00b-45ff-bb2c-65ef81cf50f8",
         "duration": 60,
         "tracks": [
           {

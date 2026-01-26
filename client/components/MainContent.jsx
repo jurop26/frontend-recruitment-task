@@ -6,17 +6,29 @@ import _ from "lodash";
 import { ProjectContext } from "./App";
 import DialogWrapper from "./DialogWrapper";
 import OpenCreateDialogContent from "./OpenCreateDialogContent";
+import useHandleDb from "../hooks/useHandleDb";
 
 export default function MainContent() {
   const { project } = useContext(ProjectContext);
   const [displayedClips, setDisplayedClips] = useState([]);
   const [selectedClip, setSelectedClip] = useState(null);
   const viewContent = _.find(displayedClips, { id: selectedClip })?.data?.name;
+  const { open } = useHandleDb("clips");
 
   useEffect(
     () => setSelectedClip(_.last(displayedClips)?.id),
     [displayedClips],
   );
+
+  useEffect(() => {
+    const getProjectClips = async () => {
+      const clips = await Promise.all(
+        (project?.data.clips ?? []).map((id) => open(id)),
+      );
+      setDisplayedClips(clips);
+    };
+    getProjectClips();
+  }, [project?.data?.clips]);
 
   return (
     <div className="flex-1 overflow-hidden">
@@ -26,11 +38,11 @@ export default function MainContent() {
           {viewContent ?? "PREVIEW AREA"}
         </div>
       </div>
-      {displayedClips.map(({ id, data }, i) => (
+      {displayedClips.filter(Boolean).map(({ id, data }, i) => (
         <ClipTimeline
           key={`clips-${id}-${i}`}
           isSelected={id === selectedClip}
-          clip={data}
+          clip={data ?? []}
           handleSelectClip={() => setSelectedClip(id)}
         />
       ))}

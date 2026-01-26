@@ -18,7 +18,7 @@ const useHandleDb = (collection) => {
       const data = await res.json();
       return data;
     } catch (err) {
-      console.err(err.message);
+      console.error(err.message);
     }
   };
 
@@ -36,6 +36,24 @@ const useHandleDb = (collection) => {
     }
   };
 
+  const update = async (id, body) => {
+    try {
+      const res = await fetch(`${URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        throw new Error(`Failed to update ${id}.`);
+      }
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error(err.message);
+      return null;
+    }
+  };
+
   const readAll = async () => {
     try {
       setLoading(true);
@@ -49,7 +67,7 @@ const useHandleDb = (collection) => {
     }
   };
 
-  return { create, open, readAll, loading, errors };
+  return { create, open, readAll, update, loading, errors };
 };
 
 export default useHandleDb;

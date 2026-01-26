@@ -35,7 +35,7 @@ export default function OpenCreateDialogContent({
   const handleCreate = async (docName) => {
     const body = {
       name: docName,
-      ...(ACTION[collection] === "clip" ? { ...initialClip } : {}),
+      ...(ACTION[collection] === "clip" ? { ...initialClip } : { clips: [] }),
     };
     const data = await create(body);
     await handleOpen(data.id);
@@ -44,9 +44,17 @@ export default function OpenCreateDialogContent({
   const handleOpen = async (id) => {
     const data = await open(id);
 
-    ACTION[collection] === "clip"
-      ? setState((prev) => _.uniqBy([...prev, data], "id"))
-      : setProject(data);
+    setProject((prev) =>
+      ACTION[collection] === "clip"
+        ? {
+            ...prev,
+            data: {
+              ...prev.data,
+              clips: _.uniq([...prev.data.clips, data.id]),
+            },
+          }
+        : data,
+    );
     closeDialog();
   };
 

@@ -2,9 +2,13 @@ import { useContext } from "react";
 import { Button } from "./ui/button";
 import { Undo, ChevronDown, Save, Redo } from "lucide-react";
 import { ProjectContext } from "./App";
+import useHandleDb from "../hooks/useHandleDb";
 
 export default function Header() {
   const { project } = useContext(ProjectContext);
+  const { update } = useHandleDb("project");
+  const handleSave = async (id) => await update(id, project);
+
   return (
     <div className="w-full py-2 mx-auto border-b-2 ">
       <div className="flex items-center justify-between">
@@ -19,7 +23,12 @@ export default function Header() {
         </div>
         <div>{project?.data?.name}</div>
         <div className="flex">
-          <Button disabled={!project} variant="outline" rounded="left">
+          <Button
+            onClick={async () => handleSave(project?.id)}
+            disabled={!project}
+            variant="outline"
+            rounded="left"
+          >
             <Save />
             Save
           </Button>
