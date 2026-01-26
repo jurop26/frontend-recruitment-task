@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import ClipTimeline from "./ClipTimeline";
 import { Button } from "./ui/button";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import _ from "lodash";
 import { ProjectContext } from "./App";
 import DialogWrapper from "./DialogWrapper";
@@ -11,14 +11,19 @@ export default function MainContent() {
   const { project } = useContext(ProjectContext);
   const [displayedClips, setDisplayedClips] = useState([]);
   const [selectedClip, setSelectedClip] = useState(null);
+  const viewContent = _.find(displayedClips, { id: selectedClip })?.data?.name;
+
+  useEffect(
+    () => setSelectedClip(_.last(displayedClips)?.id),
+    [displayedClips],
+  );
 
   return (
     <div className="w-full">
       <div className="py-6 border-b-2"></div>
       <div className="flex justify-center py-4 border-b-2">
         <div className="flex justify-center items-center text-3xl w-2xl h-128 border-2">
-          {_.find(displayedClips, { id: selectedClip })?.data?.name ??
-            "PREVIEW AREA"}
+          {viewContent ?? "PREVIEW AREA"}
         </div>
       </div>
       {displayedClips.map(({ id, data }) => (
