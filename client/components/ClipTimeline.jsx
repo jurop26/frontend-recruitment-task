@@ -82,7 +82,7 @@ export default function ClipTimeline(props) {
   return (
     <div
       onClick={() => handleSelectClip()}
-      className={`${isSelected ? "bg-orange-300" : ""}`}
+      className={`${isSelected ? "bg-orange-300" : ""} overflow-hidden`}
     >
       <RemoteBar
         isPlaying={isPlaying}
@@ -94,14 +94,14 @@ export default function ClipTimeline(props) {
         increseTimelineRange={() => setMaxTimelineRange((prev) => prev + 5)}
       />
       <div
-        className="relative min-h-50 border-b-2 select-none"
+        className="relative border-b-2 select-none scroll-auto"
         ref={timelineRef}
         onMouseUp={() => setMouseButtonDown(false)}
         onMouseMove={handleMouseMove}
       >
         <TimelineRange timelineRange={timelineRange} />
 
-        <div className="absolute  w-full overflow-hidden">
+        <div className="sticky">
           {tracks.map((track) => (
             <Track
               key={track.id}

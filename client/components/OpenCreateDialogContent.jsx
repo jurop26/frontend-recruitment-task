@@ -22,10 +22,22 @@ export default function OpenCreateDialogContent({
   const { setProject } = useContext(ProjectContext);
   const { open, create, readAll, loading, errors } = useHandleSB(collection);
 
+  const initialClip = {
+    duration: 60,
+    tracks: [
+      { id: "1", name: "Background", duration: 58, start: 0 },
+      { id: "2", name: "VideoTrack 1", duration: 30, start: 5 },
+      { id: "3", name: "VideoTrack 2", duration: 35, start: 25 },
+      { id: "4", name: "AudioTrack 1", duration: 35, start: 2 },
+      { id: "5", name: "AudioTrack 2", duration: 35, start: 2 },
+      { id: "6", name: "Intro", duration: 35, start: 25 },
+    ],
+  };
+
   const handleCreate = async (docName) => {
     const body = {
       name: docName,
-      ...(ACTION[collection] === "clip" ? { duration: 60, tracks: [] } : {}),
+      ...(ACTION[collection] === "clip" ? { ...initialClip } : {}),
     };
     const data = await create(body);
     await handleOpen(data.id);

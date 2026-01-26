@@ -19,7 +19,7 @@ export default function MainContent() {
   );
 
   return (
-    <div className="w-full">
+    <div className="flex-1 overflow-hidden">
       <div className="py-6 border-b-2"></div>
       <div className="flex justify-center py-4 border-b-2">
         <div className="flex justify-center items-center text-3xl w-2xl h-128 border-2">
