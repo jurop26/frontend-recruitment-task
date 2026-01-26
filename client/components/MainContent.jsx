@@ -26,9 +26,9 @@ export default function MainContent() {
           {viewContent ?? "PREVIEW AREA"}
         </div>
       </div>
-      {displayedClips.map(({ id, data }) => (
+      {displayedClips.map(({ id, data }, i) => (
         <ClipTimeline
-          key={`clips-${id}`}
+          key={`clips-${id}-${i}`}
           isSelected={id === selectedClip}
           clip={data}
           handleSelectClip={() => setSelectedClip(id)}

@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ProjectContext } from "./App";
+import useFetch from "../hooks/useFetch";
 
 const ACTION = {
   projets: "project",
@@ -16,65 +17,35 @@ export default function OpenCreateDialogContent({
 }) {
   const [docName, setDocName] = useState("");
   const [docs, setDocs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState(null);
   const existing = _.find(docs, { data: { name: docName } });
-
-  const { setProject } = useContext(ProjectContext);
-  const URL = `http://localhost:3000/api/${collection}`;
   const text = ACTION[collection];
+  const { setProject } = useContext(ProjectContext);
+  const { open, create, readAll, loading, errors } = useFetch(collection);
 
   const handleCreate = async (docName) => {
-    try {
-      const res = await fetch(URL, {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify({
-          name: docName,
-          ...(ACTION[collection] === "clip"
-            ? { duration: 60, tracks: [] }
-            : {}),
-        }),
-      });
-      if (!res.ok) {
-        throw new Error(`Failed to create ${text}.`);
-      }
-      const data = await res.json();
-      await handleOpen(data.id);
-      closeDialog();
-    } catch (err) {
-      console.err(err.message);
-    }
+    const body = {
+      name: docName,
+      ...(ACTION[collection] === "clip" ? { duration: 60, tracks: [] } : {}),
+    };
+    const data = await create(body);
+    await handleOpen(data.id);
   };
 
   const handleOpen = async (id) => {
-    try {
-      const res = await fetch(`${URL}/${id}`);
-      if (!res.ok) {
-        throw new Error(`Failed to open ${text}.`);
-      }
-      const data = await res.json();
+    const data = await open(id);
 
-      ACTION[collection] === "clip"
-        ? setState((prev) => [...prev, data])
-        : setProject(data);
-      closeDialog();
-    } catch (err) {
-      console.error(err.message);
-    }
+    ACTION[collection] === "clip"
+      ? setState((prev) => _.uniqBy([...prev, data], "id"))
+      : setProject(data);
+    closeDialog();
   };
 
   useEffect(() => {
-    try {
-      setLoading(true);
-      fetch(URL)
-        .then((res) => res.json())
-        .then((data) => setDocs(data));
-    } catch (err) {
-      setErrors(err.message);
-    } finally {
-      setLoading(false);
-    }
+    const getAll = async () => {
+      const data = await readAll();
+      setDocs(data);
+    };
+    getAll();
   }, []);
 
   return (
