@@ -13,6 +13,53 @@
       }
     }
   ],
-  "clips": [],
+  "clips": [
+    {
+      "id": "045573b0-3e24-4f24-9437-3e9f29cd86c6",
+      "data": {
+        "name": "new",
+        "projectId": "1990cb8f-e00b-45ff-bb2c-65ef81cf50f8",
+        "duration": 60,
+        "tracks": [
+          {
+            "id": "1",
+            "name": "Background",
+            "duration": 58,
+            "start": 0
+          },
+          {
+            "id": "2",
+            "name": "VideoTrack 1",
+            "duration": 30,
+            "start": 5
+          },
+          {
+            "id": "3",
+            "name": "VideoTrack 2",
+            "duration": 35,
+            "start": 25
+          },
+          {
+            "id": "4",
+            "name": "AudioTrack 1",
+            "duration": 35,
+            "start": 2
+          },
+          {
+            "id": "5",
+            "name": "AudioTrack 2",
+            "duration": 35,
+            "start": 2
+          },
+          {
+            "id": "6",
+            "name": "Intro",
+            "duration": 35,
+            "start": 25
+          }
+        ]
+      }
+    }
+  ],
   "notes": []
 }

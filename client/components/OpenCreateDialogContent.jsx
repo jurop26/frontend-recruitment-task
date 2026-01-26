@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ProjectContext } from "./App";
-import useHandleSB from "../hooks/useHandleDb";
+import useHandleDb from "../hooks/useHandleDb";
 
 const ACTION = {
   projets: "project",
@@ -20,8 +20,7 @@ export default function OpenCreateDialogContent({
   const existing = _.find(docs, { data: { name: docName } });
   const text = ACTION[collection];
   const { setProject } = useContext(ProjectContext);
-  const { open, create, readAll, loading, errors } = useHandleSB(collection);
-
+  const { open, create, readAll, loading, errors } = useHandleDb(collection);
   const initialClip = {
     duration: 60,
     tracks: [
@@ -33,7 +32,6 @@ export default function OpenCreateDialogContent({
       { id: "6", name: "Intro", duration: 35, start: 25 },
     ],
   };
-
   const handleCreate = async (docName) => {
     const body = {
       name: docName,
