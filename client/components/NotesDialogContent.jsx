@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { gql } from "@apollo/client";
-import { useMutation } from "@apollo/client/react";
+import { useQuery, useMutation } from "@apollo/client/react";
 
 const ADD_NOTE = gql`
   mutation AddNote($data: JSON!) {
@@ -13,12 +13,22 @@ const ADD_NOTE = gql`
   }
 `;
 
-export default function NotesDialogContent({ id, dialogClose }) {
+const NOTES = gql`
+  query Notes($projectId: String!) {
+    notes(projectId: $projectId) {
+      id
+      data
+    }
+  }
+`;
+
+export default function NotesDialogContent({ projectId, dialogClose }) {
   const [note, setNote] = useState("");
-  const [addNote, { loading, error }] = useMutation(ADD_NOTE);
+  const [addNote, { loading }] = useMutation(ADD_NOTE);
+  const { data } = useQuery(NOTES, { variables: { projectId } });
 
   const handleAddNote = async () => {
-    const res = await addNote({ variables: { data: { note } } });
+    const res = await addNote({ variables: { data: { projectId, note } } });
 
     if (res.data) {
       dialogClose();
@@ -28,6 +38,10 @@ export default function NotesDialogContent({ id, dialogClose }) {
 
   return (
     <>
+      {data?.notes &&
+        data.notes.map(({ id, data }, i) => (
+          <div key={id}>{`${i + 1}. ${data.note}`}</div>
+        ))}
       <div>
         <Textarea
           autoComplete="off"

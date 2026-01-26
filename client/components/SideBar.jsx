@@ -39,7 +39,7 @@ export default function SideBar() {
         title="Add note to project"
       >
         {(onClose) => (
-          <NotesDialogContent id={project?.data?.id} closeDialog={onClose} />
+          <NotesDialogContent projectId={project?.id} dialogClose={onClose} />
         )}
       </DialogWrapper>
     </div>

@@ -4,7 +4,19 @@
       "id": "fd8a0471-cc2e-443b-97ab-cc8a71776ea3",
       "data": {
         "name": "project 1",
-        "clips": []
+        "clips": [
+          "700b6cc6-84c3-41d1-834d-ffbb15ea6045"
+        ]
+      }
+    },
+    {
+      "id": "d09f5a41-6ae5-47de-8362-6aed92f36e22",
+      "data": {
+        "name": "project 2",
+        "clips": [
+          "3dd63d69-216d-4642-8218-031f34039db1",
+          "fabac074-19d7-46ce-8add-503b0ec4b35c"
+        ]
       }
     }
   ],
@@ -53,7 +65,119 @@
           }
         ]
       }
+    },
+    {
+      "id": "fabac074-19d7-46ce-8add-503b0ec4b35c",
+      "data": {
+        "name": "todays clip",
+        "duration": 60,
+        "tracks": [
+          {
+            "id": "1",
+            "name": "Background",
+            "duration": 58,
+            "start": 0
+          },
+          {
+            "id": "2",
+            "name": "VideoTrack 1",
+            "duration": 30,
+            "start": 5
+          },
+          {
+            "id": "3",
+            "name": "VideoTrack 2",
+            "duration": 35,
+            "start": 25
+          },
+          {
+            "id": "4",
+            "name": "AudioTrack 1",
+            "duration": 35,
+            "start": 2
+          },
+          {
+            "id": "5",
+            "name": "AudioTrack 2",
+            "duration": 35,
+            "start": 2
+          },
+          {
+            "id": "6",
+            "name": "Intro",
+            "duration": 35,
+            "start": 25
+          }
+        ]
+      }
+    },
+    {
+      "id": "700b6cc6-84c3-41d1-834d-ffbb15ea6045",
+      "data": {
+        "name": "another clip",
+        "duration": 60,
+        "tracks": [
+          {
+            "id": "1",
+            "name": "Background",
+            "duration": 58,
+            "start": 0
+          },
+          {
+            "id": "2",
+            "name": "VideoTrack 1",
+            "duration": 30,
+            "start": 5
+          },
+          {
+            "id": "3",
+            "name": "VideoTrack 2",
+            "duration": 35,
+            "start": 25
+          },
+          {
+            "id": "4",
+            "name": "AudioTrack 1",
+            "duration": 35,
+            "start": 2
+          },
+          {
+            "id": "5",
+            "name": "AudioTrack 2",
+            "duration": 35,
+            "start": 2
+          },
+          {
+            "id": "6",
+            "name": "Intro",
+            "duration": 35,
+            "start": 25
+          }
+        ]
+      }
     }
   ],
-  "notes": []
+  "notes": [
+    {
+      "id": "85cf416e-bd48-40d2-b8e1-977464d1dd2b",
+      "data": {
+        "projectId": "fd8a0471-cc2e-443b-97ab-cc8a71776ea3",
+        "note": "dsfs dsfsd fsd"
+      }
+    },
+    {
+      "id": "a1ba7121-1358-4c3b-9c9e-bf7880d625d3",
+      "data": {
+        "projectId": "fd8a0471-cc2e-443b-97ab-cc8a71776ea3",
+        "note": "dsf dsfs dfs"
+      }
+    },
+    {
+      "id": "861a399f-f624-4e1a-8570-4cd525c92258",
+      "data": {
+        "projectId": "fd8a0471-cc2e-443b-97ab-cc8a71776ea3",
+        "note": "df sdfdsfs d"
+      }
+    }
+  ]
 }
