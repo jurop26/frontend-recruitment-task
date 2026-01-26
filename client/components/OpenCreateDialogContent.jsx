@@ -10,11 +10,7 @@ const ACTION = {
   clips: "clip",
 };
 
-export default function OpenCreateDialogContent({
-  collection,
-  closeDialog,
-  setState,
-}) {
+export default function OpenCreateDialogContent({ collection, closeDialog }) {
   const [docName, setDocName] = useState("");
   const [docs, setDocs] = useState([]);
   const existing = _.find(docs, { data: { name: docName } });

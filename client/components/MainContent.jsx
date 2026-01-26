@@ -59,11 +59,7 @@ export default function MainContent() {
           description="Choose existing or enter new clip name"
         >
           {(onClose) => (
-            <OpenCreateDialogContent
-              collection="clips"
-              closeDialog={onClose}
-              setState={setDisplayedClips}
-            />
+            <OpenCreateDialogContent collection="clips" closeDialog={onClose} />
           )}
         </DialogWrapper>
       </div>
