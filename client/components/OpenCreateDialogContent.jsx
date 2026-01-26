@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { ProjectContext } from "./App";
-import useFetch from "../hooks/useFetch";
+import useHandleSB from "../hooks/useHandleDb";
 
 const ACTION = {
   projets: "project",
@@ -20,7 +20,7 @@ export default function OpenCreateDialogContent({
   const existing = _.find(docs, { data: { name: docName } });
   const text = ACTION[collection];
   const { setProject } = useContext(ProjectContext);
-  const { open, create, readAll, loading, errors } = useFetch(collection);
+  const { open, create, readAll, loading, errors } = useHandleSB(collection);
 
   const handleCreate = async (docName) => {
     const body = {

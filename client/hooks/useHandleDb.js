@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const useFetch = (collection) => {
+const useHandleDb = (collection) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const URL = `http://localhost:3000/api/${collection}`;
@@ -52,4 +52,4 @@ const useFetch = (collection) => {
   return { create, open, readAll, loading, errors };
 };
 
-export default useFetch;
+export default useHandleDb;
