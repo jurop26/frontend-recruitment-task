@@ -17,7 +17,7 @@ export default function Header() {
             <Redo />
           </Button>
         </div>
-        <div>{project?.name}</div>
+        <div>{project?.data?.name}</div>
         <div className="flex">
           <Button disabled={!project} variant="outline" rounded="left">
             <Save />

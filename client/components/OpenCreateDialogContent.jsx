@@ -53,8 +53,8 @@ export default function OpenCreateDialogContent({
       if (!res.ok) {
         throw new Error(`Failed to open ${text}.`);
       }
-      const { data } = await res.json();
-      console.log(data);
+      const data = await res.json();
+
       ACTION[collection] === "clip"
         ? setState((prev) => [...prev, data])
         : setProject(data);

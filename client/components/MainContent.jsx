@@ -17,15 +17,16 @@ export default function MainContent() {
       <div className="py-6 border-b-2"></div>
       <div className="flex justify-center py-4 border-b-2">
         <div className="flex justify-center items-center text-3xl w-2xl h-128 border-2">
-          {_.find(project?.data, { id: selectedClip })?.name ?? "PREVIEW AREA"}
+          {_.find(displayedClips, { id: selectedClip })?.data?.name ??
+            "PREVIEW AREA"}
         </div>
       </div>
-      {displayedClips.map((clip) => (
+      {displayedClips.map(({ id, data }) => (
         <ClipTimeline
-          key={`clips-${clip.id}`}
-          isSelected={clip.id === selectedClip}
-          clip={clip}
-          handleSelectClip={() => setSelectedClip(clip.id)}
+          key={`clips-${id}`}
+          isSelected={id === selectedClip}
+          clip={data}
+          handleSelectClip={() => setSelectedClip(id)}
         />
       ))}
 
