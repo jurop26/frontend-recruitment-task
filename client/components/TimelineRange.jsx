@@ -13,8 +13,8 @@ export default function TimelineRange(props) {
           <span
             className="text-xs"
             style={{
-              minWidth: `${widthPerSecond + (isNumber ? 10 : 0)}px`,
-              marginLeft: isNumber ? "-10px" : "",
+              minWidth: `${widthPerSecond + (isNumber ? 7 : 0)}px`,
+              marginLeft: isNumber ? "-7px" : "",
             }}
             key={`timeline-segment-${i}`}
           >
