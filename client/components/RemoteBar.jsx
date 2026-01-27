@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { ProjectContext } from "./App";
 import _ from "lodash";
 import useHandleDb from "../hooks/useHandleDb";
+import { splitClip } from "./lib/helper";
 
 export default function RemoteBar(props) {
   const {
@@ -22,61 +23,25 @@ export default function RemoteBar(props) {
   const { create, update } = useHandleDb("clips");
 
   const handleSplitClip = async () => {
-    const roundedTimer = Math.floor(timer);
-    const splitedClip = {
-      ...clip,
-      data: {
-        ...clip.data,
-        duration: roundedTimer,
-        tracks: clip.data.tracks.reduce((acc, t) => {
-          if (timer < t.start) {
-            return acc;
-          }
-          return [
-            ...acc,
-            {
-              ...t,
-              duration: roundedTimer - t.start,
-            },
-          ];
-        }, []),
-      },
-    };
-    const newClip = {
-      ...clip,
-      data: {
-        ...clip.data,
-        duration: clip.data.duration - roundedTimer,
-        tracks: clip.data.tracks.reduce((acc, t) => {
-          if (timer > t.start + t.duration) {
-            return acc;
-          }
-          return [
-            ...acc,
-            {
-              ...t,
-              duration:
-                timer > t.start
-                  ? t.duration - roundedTimer + t.start
-                  : t.duration,
-              start: timer > t.start ? 0 : t.start - roundedTimer,
-            },
-          ];
-        }, []),
-      },
-    };
-
+    const { originalClip, newClip } = splitClip(clip, timer);
     const [created] = await Promise.all([
       create(newClip.data),
-      update(splitedClip.id, splitedClip.data),
+      update(originalClip.id, originalClip.data),
     ]);
 
     if (created) {
+      const indexOfOriginal = _.findIndex(
+        project.data.clips,
+        (id) => id === originalClip.id,
+      );
+      const currentClips = [...project.data.clips];
+      currentClips.splice(indexOfOriginal + 1, 0, created.id);
+
       setProject({
         ...project,
         data: {
           ...project.data,
-          clips: [...project.data.clips, created.id],
+          clips: currentClips,
         },
       });
     }
