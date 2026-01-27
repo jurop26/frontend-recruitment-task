@@ -8,27 +8,15 @@ export default function ClipTimeline(props) {
   const { isSelected, clip, handleSelectClip } = props;
   const { tracks, duration } = clip;
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
-  const [maxTimelineRange, setMaxTimelineRange] = useState(duration);
+  const [clipDuration, setClipDuration] = useState(duration);
+  const [clipDurationIncrementor, setClipDurationIncrementor] = useState(5);
   const [indicatorX, setIndicatorX] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
   const [timer, setTimer] = useState(0);
   const [timelineWidth, setTimelineWidth] = useState(0);
   const timelineRef = useRef(null);
-  const timelineScaleParts = Math.min(maxTimelineRange / 5 + 1, 13); // plus 1 as default 0;
-  const widthPerSecond = timelineWidth / maxTimelineRange;
-
-  const timelineRange = useMemo(
-    () =>
-      Array.from({
-        length: timelineScaleParts,
-      }).reduce((acc, _, i) => {
-        acc.push(i * Math.ceil(maxTimelineRange / (timelineScaleParts - 1)));
-
-        return acc;
-      }, []),
-    [maxTimelineRange],
-  );
+  const widthPerSecond = timelineWidth / Math.min(clipDuration, 60);
 
   const handleMouseMove = (e) => {
     if (!isMouseButtonDown) {
@@ -46,7 +34,7 @@ export default function ClipTimeline(props) {
     }
     const rect = timelineRef.current.getBoundingClientRect();
     setTimelineWidth(rect.width);
-  }, [maxTimelineRange]);
+  }, [clipDuration]);
 
   useEffect(() => {
     if (!isPlaying) {
@@ -54,12 +42,12 @@ export default function ClipTimeline(props) {
     }
     const interval = setInterval(() => {
       setIndicatorX((prev) => {
-        const next = prev + widthPerSecond / 100;
+        const next = prev + widthPerSecond / 1000;
         return next > timelineWidth && isRepeat
           ? 0
           : Math.min(next, timelineWidth);
       });
-    }, 10);
+    }, 1);
 
     return () => clearInterval(interval);
   }, [isPlaying]);
@@ -73,7 +61,7 @@ export default function ClipTimeline(props) {
       return;
     }
     const interval = setInterval(
-      () => setTimer((prev) => (timer === maxTimelineRange ? 0 : prev + 1)),
+      () => setTimer((prev) => (timer === clipDuration ? 0 : prev + 1)),
       1000,
     );
     return () => clearInterval(interval);
@@ -86,24 +74,33 @@ export default function ClipTimeline(props) {
   return (
     <div
       onClick={() => handleSelectClip()}
-      className={`${isSelected ? "bg-orange-300" : ""} overflow-hidden`}
+      className={`${isSelected ? "bg-orange-300" : ""} `}
     >
       <RemoteBar
         isPlaying={isPlaying}
         isRepeat={isRepeat}
         timer={timer}
+        clipDuration={clipDuration}
         handleIsPlaying={() => setIsPlaying((prev) => !prev)}
         handleIsRepeat={() => setIsRepeat((prev) => !prev)}
-        decreseTimelineRange={() => setMaxTimelineRange((prev) => prev - 5)}
-        increseTimelineRange={() => setMaxTimelineRange((prev) => prev + 5)}
+        decreseTimelineRange={() =>
+          setClipDuration((prev) => prev - clipDurationIncrementor)
+        }
+        increseTimelineRange={() =>
+          setClipDuration((prev) => prev + clipDurationIncrementor)
+        }
       />
       <div
-        className="relative border-b-2 select-none scroll-auto"
+        className="relative border-b-2 select-none overflow-x-auto overflow-y-hidden whitespace-nowrap"
         ref={timelineRef}
         onMouseUp={() => setMouseButtonDown(false)}
         onMouseMove={handleMouseMove}
       >
-        <TimelineRange timelineRange={timelineRange} />
+        <TimelineRange
+          clipDurationIncrementor={clipDurationIncrementor}
+          widthPerSecond={widthPerSecond}
+          clipDuration={clipDuration}
+        />
 
         <div className="sticky">
           {tracks.map((track) => (

@@ -7,6 +7,7 @@ export default function RemoteBar(props) {
     isPlaying,
     isRepeat,
     timer,
+    clipDuration,
     decreseTimelineRange,
     increseTimelineRange,
     handleIsPlaying,
@@ -21,9 +22,13 @@ export default function RemoteBar(props) {
       </Button>
       <div>
         <div>
-          {moment(moment.duration(timer, "seconds").asMilliseconds()).format(
+          {`${moment(moment.duration(timer, "seconds").asMilliseconds()).format(
             "mm:ss",
           )}
+          /
+          ${moment(
+            moment.duration(clipDuration, "seconds").asMilliseconds(),
+          ).format("mm:ss")}`}
         </div>
         <Button
           onClick={() => handleIsPlaying()}

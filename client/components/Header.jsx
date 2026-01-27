@@ -9,7 +9,7 @@ export default function Header() {
   const { update } = useHandleDb("projects");
   const handleSave = async (id) => {
     if (project && project.data) {
-      await update(id, project?.data);
+      await update(id, project.data);
       alert("Project saved");
     }
   };

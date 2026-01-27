@@ -1,19 +1,27 @@
-import { Fragment } from "react";
-
 export default function TimelineRange(props) {
-  const { timelineRange } = props;
+  const { clipDuration, widthPerSecond, clipDurationIncrementor } = props;
 
   return (
-    <div className="flex justify-between">
-      {timelineRange.map((t, i) => (
-        <Fragment key={`timeline-segment-${t}`}>
-          <div>{t}s</div>
-          {i < timelineRange.length - 1 &&
-            Array.from({ length: 4 }).map((_, i) => (
-              <div key={`timeline-part-${i}`}>|</div>
-            ))}
-        </Fragment>
-      ))}
+    <div
+      className="flex"
+      style={{ minWidth: `${clipDuration * widthPerSecond}px` }}
+    >
+      {Array.from({ length: clipDuration + 1 }).map((_, i) => {
+        const isNumber =
+          i % clipDurationIncrementor === 0 || i === clipDuration;
+        return (
+          <span
+            className="text-xs"
+            style={{
+              minWidth: `${widthPerSecond + (isNumber ? 10 : 0)}px`,
+              marginLeft: isNumber ? "-10px" : "",
+            }}
+            key={`timeline-segment-${i}`}
+          >
+            {isNumber ? `${i}s` : "|"}
+          </span>
+        );
+      })}
     </div>
   );
 }
