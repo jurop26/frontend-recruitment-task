@@ -3,7 +3,8 @@ import { useState } from "react";
 const useHandleDb = (collection) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
-  const URL = `http://localhost:3000/api/${collection}`;
+  const BASE_URL = import.meta.env.VITE_API_URL;
+  const URL = `${BASE_URL}/${collection}`;
 
   const apiFetch = async (URL, options = {}) => {
     try {
