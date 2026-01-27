@@ -37,35 +37,39 @@ export default function ClipTimeline(props) {
   }, [clipDuration]);
 
   useEffect(() => {
-    if (!isPlaying) {
-      return;
-    }
-    const interval = setInterval(() => {
-      setIndicatorX((prev) => {
-        const next = prev + widthPerSecond / 1000;
-        return next > timelineWidth && isRepeat
-          ? 0
-          : Math.min(next, timelineWidth);
-      });
-    }, 1);
+    if (!isPlaying) return;
 
-    return () => clearInterval(interval);
-  }, [isPlaying]);
+    let frame;
+    let startTime = performance.now();
+    let startOffsetSeconds = timer;
 
-  useEffect(() => {
-    if (!isPlaying) {
-      return;
-    }
-    if (timer === duration && !isRepeat) {
-      setIsPlaying(false);
-      return;
-    }
-    const interval = setInterval(
-      () => setTimer((prev) => (timer === clipDuration ? 0 : prev + 1)),
-      1000,
-    );
-    return () => clearInterval(interval);
-  }, [timer, isPlaying]);
+    const animate = (now) => {
+      const elapsed = (now - startTime) / 1000;
+      const currentTime = startOffsetSeconds + elapsed;
+
+      if (currentTime >= clipDuration) {
+        if (isRepeat) {
+          startTime = performance.now();
+          startOffsetSeconds = 0;
+          setTimer(0);
+          setIndicatorX(0);
+        } else {
+          setTimer(clipDuration);
+          setIndicatorX(widthPerSecond * clipDuration);
+          setIsPlaying(false);
+          return;
+        }
+      } else {
+        setTimer(currentTime);
+        setIndicatorX(currentTime * widthPerSecond);
+      }
+
+      frame = requestAnimationFrame(animate);
+    };
+
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [isPlaying, widthPerSecond, timelineWidth, clipDuration, isRepeat]);
 
   if (!tracks) {
     return null;
