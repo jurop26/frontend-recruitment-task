@@ -38,12 +38,12 @@ export default function MainContent() {
           {viewContent ?? "PREVIEW AREA"}
         </div>
       </div>
-      {displayedClips.filter(Boolean).map(({ id, data }, i) => (
+      {displayedClips.filter(Boolean).map((clip, i) => (
         <ClipTimeline
-          key={`clips-${id}-${i}`}
-          isSelected={id === selectedClip}
-          clip={data ?? []}
-          handleSelectClip={() => setSelectedClip(id)}
+          key={`clips-${clip.id}-${i}`}
+          isSelected={clip.id === selectedClip}
+          clip={clip}
+          handleSelectClip={() => setSelectedClip(clip.id)}
         />
       ))}
 

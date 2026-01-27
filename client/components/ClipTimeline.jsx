@@ -6,7 +6,7 @@ import { Track } from "./Track";
 
 export default function ClipTimeline(props) {
   const { isSelected, clip, handleSelectClip } = props;
-  const { tracks, duration } = clip;
+  const { tracks, duration } = clip.data;
   const [isMouseButtonDown, setMouseButtonDown] = useState(false);
   const [clipDuration, setClipDuration] = useState(duration);
   const [clipDurationIncrementor, setClipDurationIncrementor] = useState(5);
@@ -86,6 +86,7 @@ export default function ClipTimeline(props) {
         isPlaying={isPlaying}
         isRepeat={isRepeat}
         timer={timer}
+        clip={clip}
         clipDuration={clipDuration}
         handleIsPlaying={() => setIsPlaying((prev) => !prev)}
         handleIsRepeat={() => setIsRepeat((prev) => !prev)}
