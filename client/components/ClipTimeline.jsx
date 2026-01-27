@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Indicator from "./Indicator";
 import RemoteBar from "./RemoteBar";
 import TimelineRange from "./TimelineRange";
@@ -25,7 +25,9 @@ export default function ClipTimeline(props) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.x;
     const clampedX = Math.max(0, Math.min(x, rect.width));
+    const newTime = clampedX / widthPerSecond;
     setIndicatorX(clampedX);
+    setTimer(newTime);
   };
 
   useEffect(() => {
