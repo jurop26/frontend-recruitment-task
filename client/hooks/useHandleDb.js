@@ -5,61 +5,39 @@ const useHandleDb = (collection) => {
   const [errors, setErrors] = useState(null);
   const URL = `http://localhost:3000/api/${collection}`;
 
-  const create = async (body) => {
+  const apiFetch = async (URL, options = {}) => {
     try {
       const res = await fetch(URL, {
-        method: "POST",
         headers: { "Content-type": "application/json" },
-        body: JSON.stringify(body),
+        ...options,
       });
       if (!res.ok) {
-        throw new Error(`Failed to create ${id}.`);
+        throw new Error(`Request failed (${res.status})`);
       }
-      const data = await res.json();
-      return data;
+      return await res.json();
     } catch (err) {
-      console.error(err.message);
+      throw err;
     }
   };
 
-  const open = async (id) => {
-    try {
-      const res = await fetch(`${URL}/${id}`);
-      if (!res.ok) {
-        throw new Error(`Failed to open ${id}.`);
-      }
-      const data = await res.json();
+  const create = async (body) =>
+    await apiFetch(URL, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
 
-      return data;
-    } catch (err) {
-      console.error(err.message);
-    }
-  };
+  const open = async (id) => await apiFetch(`${URL}/${id}`);
 
-  const update = async (id, body) => {
-    try {
-      const res = await fetch(`${URL}/${id}`, {
-        method: "PUT",
-        headers: { "Content-type": "application/json" },
-        body: JSON.stringify(body),
-      });
-      if (!res.ok) {
-        throw new Error(`Failed to update ${id}.`);
-      }
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      console.error(err.message);
-      return null;
-    }
-  };
+  const update = async (id, body) =>
+    await apiFetch(`${URL}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(body),
+    });
 
   const readAll = async () => {
     try {
       setLoading(true);
-      const res = await fetch(URL);
-      const data = await res.json();
-      return data;
+      return await apiFetch(URL);
     } catch (err) {
       setErrors(err.message);
     } finally {
