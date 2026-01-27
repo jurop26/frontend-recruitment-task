@@ -49,7 +49,11 @@ export default function RemoteBar(props) {
 
   return (
     <div className="flex justify-around items-center py-2 border-b-2 [&>div]:flex [&>div]:items-center [&>div]:gap-4">
-      <Button onClick={() => handleSplitClip()} variant="outline">
+      <Button
+        disabled={timer === 0}
+        onClick={() => handleSplitClip()}
+        variant="outline"
+      >
         <SplitSquareHorizontal />
         Split Clip
       </Button>
