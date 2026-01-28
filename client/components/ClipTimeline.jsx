@@ -90,11 +90,8 @@ export default function ClipTimeline(props) {
         clipDuration={clipDuration}
         handleIsPlaying={() => setIsPlaying((prev) => !prev)}
         handleIsRepeat={() => setIsRepeat((prev) => !prev)}
-        decreseTimelineRange={() =>
-          setClipDuration((prev) => prev - clipDurationIncrementor)
-        }
-        increseTimelineRange={() =>
-          setClipDuration((prev) => prev + clipDurationIncrementor)
+        changeTimelineRange={(direction = 1) =>
+          setClipDuration((prev) => prev + direction * clipDurationIncrementor)
         }
       />
       <div

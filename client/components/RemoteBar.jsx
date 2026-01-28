@@ -14,8 +14,7 @@ export default function RemoteBar(props) {
     timer,
     clip,
     clipDuration,
-    decreseTimelineRange,
-    increseTimelineRange,
+    changeTimelineRange,
     handleIsPlaying,
     handleIsRepeat,
   } = props;
@@ -90,14 +89,14 @@ export default function RemoteBar(props) {
         Timeline Scale
         <div className="flex">
           <Button
-            onClick={() => decreseTimelineRange()}
+            onClick={() => changeTimelineRange(-1)}
             variant="outline"
             rounded="left"
           >
             <Minus />
           </Button>
           <Button
-            onClick={() => increseTimelineRange()}
+            onClick={() => changeTimelineRange()}
             variant="outline"
             rounded="right"
           >
